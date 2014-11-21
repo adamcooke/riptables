@@ -116,6 +116,17 @@ both and cannot currently be different depending on IP version.
 The `riptables` command is used to generate your iptables-save files. These can
 then be used with `iptables-restore`.
 
+### Installing
+
+* Ensure you have Ruby 2.0 or higher installed.
+* Ensure you have RubyGems install.
+
+```text
+gem install riptables
+```
+
+### Usage
+
 ```text
 $ riptables
 ```
