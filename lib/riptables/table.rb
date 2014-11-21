@@ -5,10 +5,12 @@ require 'riptables/table_export'
 module Riptables
   class Table
 
+    attr_reader :base
     attr_reader :name
     attr_reader :chains
 
-    def initialize(name)
+    def initialize(base, name)
+      @base = base
       @name = name
       @chains = {}
     end

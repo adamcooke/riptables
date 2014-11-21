@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 $:.unshift(File.expand_path('../../lib', __FILE__))
-require 'riptables'
+
 require 'optparse'
 
 options = {}
@@ -21,8 +21,9 @@ OptionParser.new do |opts|
 end.parse!
 
 begin
-  Riptables.load_from_file(load_path)
-  Riptables.tables.each do |table|
+  require 'riptables/base'
+  base = Riptables::Base.load_from_file(load_path)
+  base.tables.each do |table|
     puts table.export(options).to_savefile(ipv)
   end
 rescue Riptables::Error => e
