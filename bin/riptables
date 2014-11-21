@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+$:.unshift(File.expand_path('../../lib', __FILE__))
+require 'riptables'
+require 'optparse'
+
+options = {}
+options[:conditions] = {}
+options[:color] = false
+ipv = 4
+load_path = File.expand_path('./FirewallFile')
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: riptables [options]"
+  opts.on("-4", "Return IPv6 records")  { ipv = 4 }
+  opts.on("-6", "Return IPv6 records")  { ipv = 6 }
+  opts.on("-r", "--role [ROLE]", "The role to generate for")  { |v| options[:conditions][:role] = v }
+  opts.on("-z", "--zone [ZONE]", "The zone to generate for")  { |v| options[:conditions][:zone] = v }
+  opts.on("--color", "Colorize the output")                   { |v| options[:color] = true }
+  opts.on("--color", "Colorize the output")                   { |v| options[:color] = true }
+  opts.on("-f", "--file [PATH]", "The Riptables configuration file") { |v| load_path = v }
+end.parse!
+
+begin
+  Riptables.load_from_file(load_path)
+  Riptables.tables.each do |table|
+    puts table.export(options).to_savefile(ipv)
+  end
+rescue Riptables::Error => e
+  $stderr.puts "\e[31m#{e}\e[0m"
+  exit 1
+rescue => e
+  $stderr.puts "\e[31m#{e.class}: #{e.message}\e[0m"
+  exit 1
+end
