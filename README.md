@@ -139,3 +139,4 @@ The following options are supported and can be used interchagably:
 * `--zone [ZONE]` - set the zone to export configuration for
 * `--role [ROLE]` - set the role to export configuration for
 * `--color` - return a [colorized output](http://s.adamcooke.io/14/Vmzd2.png) (useful for debugging)
+* `--no-timestamp` - do not include the timestamp in the generated output

@@ -16,8 +16,8 @@ OptionParser.new do |opts|
   opts.on("-r", "--role [ROLE]", "The role to generate for")  { |v| options[:conditions][:role] = v }
   opts.on("-z", "--zone [ZONE]", "The zone to generate for")  { |v| options[:conditions][:zone] = v }
   opts.on("--color", "Colorize the output")                   { |v| options[:color] = true }
-  opts.on("--color", "Colorize the output")                   { |v| options[:color] = true }
   opts.on("-f", "--file [PATH]", "The Riptables configuration file") { |v| load_path = v }
+  opts.on("--no-timestamps", "Do not print the timestamp on output") { |v| options[:timestamp] = false }
 end.parse!
 
 begin

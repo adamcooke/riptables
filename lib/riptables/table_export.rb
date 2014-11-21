@@ -24,7 +24,8 @@ module Riptables
         end
 
         s << "COMMIT"
-        s << "# Compiled by riptables on #{Time.now.strftime("%a %b %e %H:%M:%S %Y")}"
+        timestamp = @options[:timestamp] == false ? '' : "on #{Time.now.strftime("%a %b %e %H:%M:%S %Y")}"
+        s << "# Compiled by riptables #{timestamp}"
       end.join("\n")
     end
 
