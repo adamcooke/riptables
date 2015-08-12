@@ -31,5 +31,6 @@ rescue Riptables::Error => e
   exit 1
 rescue => e
   $stderr.puts "\e[31m#{e.class}: #{e.message}\e[0m"
+  puts e.backtrace
   exit 1
 end
