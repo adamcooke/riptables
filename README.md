@@ -136,10 +136,12 @@ end
 # Create a rule with a permutation with the option :ip with a symbol relating to
 # the host group you want to allow. This will then add a rule for each host in the
 # host group.
-forward "Allow traffic to web servers" do
-  rule "-p tcp --dport {{port}} -d {{ip}}"
-  permutation "Insecure", :port => 80, :ip => :web_servers
-  permutation "Secure", :port => 443, :ip => :web_servers
+table :filter do
+  forward "Allow traffic to web servers" do
+    rule "-p tcp --dport {{port}} -d {{ip}}"
+    permutation "Insecure", :port => 80, :ip => :web_servers
+    permutation "Secure", :port => 443, :ip => :web_servers
+  end
 end
 ```
 
