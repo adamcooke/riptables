@@ -111,6 +111,38 @@ You'll see in the previous example, you can pass the `:v` option to permutations
 to restrict which firewall they belong to. Default rules will always apply to
 both and cannot currently be different depending on IP version.
 
+When using the `:ip` option on a permutation, riptables will automatically detect
+v4 or v6 addresses and will add the permutation to the rule as appropriate.
+
+```ruby
+permutation "Allow IPv4",   :ip => '10.0.0.0/16'
+permutation "Allow IPv6",   :ip => '2a00:67a0::/32'
+```
+
+### Host Groups
+
+You can configure groups of IP addresses which can be used to automatically create
+permutations.
+
+```ruby
+# Create a host group containing all the hosts you want. You don't need to specify
+# both IPv4 and v6 addresses.
+host_group :web_servers do
+  host 'web01', 4 => "123.123.123.101", 6 => "2a00:67a0:b:1::101"
+  host 'web02', 4 => "123.123.123.102", 6 => "2a00:67a0:b:1::102"
+  host 'web03', 4 => "123.123.123.103", 6 => "2a00:67a0:b:1::103"
+end
+
+# Create a rule with a permutation with the option :ip with a symbol relating to
+# the host group you want to allow. This will then add a rule for each host in the
+# host group.
+forward "Allow traffic to web servers" do
+  rule "-p tcp --dport {{port}} -d {{ip}}"
+  permutation "Insecure", :port => 80, :ip => :web_servers
+  permutation "Secure", :port => 443, :ip => :web_servers
+end
+```
+
 ## Command Line
 
 The `riptables` command is used to generate your iptables-save files. These can
